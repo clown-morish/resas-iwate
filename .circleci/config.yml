@@ -24,13 +24,12 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "26:80:77:81:d9:f9:fe:9e:b8:68:e9:1c:4b:fe:9d:2c"
+            - "e4:18:ff:32:1d:23:de:b7:28:94:c5:8e:da:ad:41:1c"
 
       - run:
           name: Start ssh-keyscan
           command: |
             ssh-keyscan ${HOST_NAME} >> ${HOME}/.ssh/known_hosts
-            ssh-keyscan -p 10022 ${HOST_NAME_DEV} >> ${HOME}/.ssh/known_hosts
 
       - checkout
 
@@ -38,5 +37,5 @@ jobs:
           name: Start deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                rsync -av --delete --exclude='.git' --exclude='.circleci' ./ ${SSH_USER}@${HOST_NAME}:/var/www/vhosts/i-0651ad3099c2ac4cc/wp-content/themes/alexaday2018/
+                rsync -av --delete --exclude='.git' --exclude='.circleci' ./ ${SSH_USER}@${HOST_NAME}:/var/www/html/laravel/
             fi
