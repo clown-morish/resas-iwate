@@ -1,0 +1,42 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/php:7.1.5-browsers
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mysql:9.4
+
+    working_directory: ~/repo
+
+    branches:
+      only:
+        - master
+
+    steps:
+
+      - add_ssh_keys:
+          fingerprints:
+            - "26:80:77:81:d9:f9:fe:9e:b8:68:e9:1c:4b:fe:9d:2c"
+
+      - run:
+          name: Start ssh-keyscan
+          command: |
+            ssh-keyscan ${HOST_NAME} >> ${HOME}/.ssh/known_hosts
+            ssh-keyscan -p 10022 ${HOST_NAME_DEV} >> ${HOME}/.ssh/known_hosts
+
+      - checkout
+
+      - deploy:
+          name: Start deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                rsync -av --delete --exclude='.git' --exclude='.circleci' ./ ${SSH_USER}@${HOST_NAME}:/var/www/vhosts/i-0651ad3099c2ac4cc/wp-content/themes/alexaday2018/
+            fi
