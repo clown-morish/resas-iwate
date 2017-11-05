@@ -1,5 +1,34 @@
+var iwatePref = 3
+var tokyoPref = 13
+var iwateCity
+var tokyoCity
+var populationChart
+var incomeChart
+
 $(document).ready(() => {
-  
+
+  iwateCity = $('[name=iwateCity]').val()
+  tokyoCity = $('[name=tokyoCity]').val()
+
+  render()
+
+  $('#iwate-city').change(function() {
+  console.log("fnit")
+    // 選択されているvalue属性値を取り出す
+  iwateCity = $('[name=iwateCity]').val()
+  render()
+  });
+
+  $('#tokyo-city').change(function() {
+    console.log("fffni")
+      // 選択されているvalue属性値を取り出す
+    tokyoCity = $('[name=tokyoCity]').val()
+    render()
+  });
+});
+
+function render() {
+  console.log("in reander")
   // 昼夜間人口比率
   render_population()
 
@@ -7,14 +36,20 @@ $(document).ready(() => {
 
   // 一人あたりの賃金
   render_income()
-});
+}
 
 var render_population = () => {
-  getJson("/Population", (response) => {
+  const url = `/Population?firstPrefCode=${iwatePref}&firstCityCode=${iwateCity}&secondPrefCode=${tokyoPref}&secondCityCode=${tokyoCity}`
+  console.log(url)
+  getJson(url, (response) => {
 
     var ctx = document.getElementById("populationChart").getContext('2d');
 
-    const populationChart =  new Chart(ctx, {
+    if( populationChart ){
+     populationChart.destroy();
+     }
+
+    populationChart =  new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ["岩手-昼", "岩手-夜", "東京-昼", "東京-夜"],
@@ -53,7 +88,12 @@ var render_income = () => {
     console.log(response) 
 
     var ctx = document.getElementById("incomeChart").getContext('2d');
-    const incomeChart =  new Chart(ctx, {
+
+    if( incomeChart ){
+     incomeChart.destroy();
+    }
+
+    incomeChart =  new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ["東京", "岩手"],
@@ -95,3 +135,5 @@ function getJson(url, callback) {
     }
     );
 }
+
+

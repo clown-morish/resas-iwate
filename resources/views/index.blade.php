@@ -27,19 +27,16 @@
     <main>
         <p class="read">〜 岩手と東京を客観的なデータで比較. 岩手の魅力を再発見! 〜</p>
 
-
-
-
         <article>
             <h2>数値から見た岩手のいいところ</h2>
             <div class="select-forms">
-                <select name="iwate-city" id="iwate-city" class="form-control">
+                <select name="iwateCity" id="iwate-city" class="form-control">
                     @foreach ($iwate as $city)
                         <option value="{{$city['cityCode']}}">{{ $city["cityName"]  }}</option>
                     @endforeach
                 </select>
                 と
-                <select name="tokyo" id="tokyo-city" class="form-control">
+                <select name="tokyoCity" id="tokyo-city" class="form-control">
                     @foreach ($tokyo as $city)
                         <option value="{{$city['cityCode']}}">{{ $city["cityName"]  }}</option>
                     @endforeach
