@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PopulationController extends Controller
+class LandController extends Controller
 {
 	public function __construct(Request $request)
 	{		
@@ -18,19 +18,19 @@ class PopulationController extends Controller
 
 	public function index()
 	{
-		$population['iwate'] = $this->getPopulation($this->firstPrefCode,$this->firstCityCode);
-		$population['tokyo'] = $this->getPopulation($this->secondPrefCode,$this->secondCityCode);
-		return response()->json($population);
+		$Land['iwate'] = $this->getLand($this->firstPrefCode,$this->firstCityCode);
+		$Land['tokyo'] = $this->getLand($this->secondPrefCode,$this->secondCityCode);
+		return response()->json($Land);
 	}
 
-	public function getPopulation($pref_cd, $city_cd)
+	public function getLand($pref_cd, $city_cd)
 	{
 		$api_key = "UPX5SZobrRouNAHKJksmpsixcgtDbcQfPXCo2UV9";
 		$headers = [
 			"Content-Type: application/json",
 			"X-API-KEY: " . $api_key,
 		];
-		$url = "https://opendata.resas-portal.go.jp/api/v1/townPlanning/commuteSchool/areaPopulationCircle?prefecture_cd=".$pref_cd."&city_cd=".$city_cd."&mode=2&year=2010";
+		$url = "https://opendata.resas-portal.go.jp/api/v1/forestry/land/forStacked?prefCode=".$pref_cd."&cityCode=".$city_cd;
 		$curl = curl_init(); 
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -38,9 +38,12 @@ class PopulationController extends Controller
 		$res = curl_exec($curl);
 		curl_close($curl);
 		$res_array = json_decode($res, true);
-		$result['noonDataSum'] = $res_array['result']['noonDataSum'];
-		$result['nightDataSum'] = $res_array['result']['nightDataSum'];
-		$result['dayNightRate'] = $res_array['result']['dayNightRate'];
+
+		$recent_num = count($res_array['result']['years'])-1;
+
+		$result['year'] = $res_array['result']['years'][1]['year'];
+		$result['privatearea'] = $res_array['result']['years'][1]['statearea'];
+		$result['statearea'] = $res_array['result']['years'][1]['privatearea'];
 		
 		return $result;
 	}

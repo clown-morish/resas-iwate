@@ -9,11 +9,11 @@ class WageController extends Controller
 	public function __construct()
 	{
 		// 岩手県盛岡市
-		$this->firstPrefCode = "3";
-		$this->firstCityCode = "03201";
+		$this->firstPrefCode = $request->firstPrefCode;
+		$this->firstCityCode = $request->firstCityCode;
 		// 東京都港区
-		$this->secondPrefCode = "13";
-		$this->secondCityCode = "13103";
+		$this->secondPrefCode = $request->secondPrefCode;
+		$this->secondCityCode = $request->secondCityCode;
 	}
 
 	public function index()
