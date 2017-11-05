@@ -10,9 +10,11 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/main.css">
         <script src="/js/app.js"></script>
         <!--script src="https://d3js.org/d3.v4.min.js"></script-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+        <script src="/js/render_chart.js"></script>
 
         <!-- Styles -->
     </head>
@@ -45,6 +47,8 @@
                     <h3>仕事の話</h3>
                     
                     <h3>お金の話</h3>
+                    <h4>一人あたりの賃金</h4>
+                    <canvas id="incomeChart" width="400" height="400"></canvas>
                 </section>
             </article>
         </main>
