@@ -127,7 +127,8 @@ var render_nature = () => {
 
   var render_income = () => {
   // http request
-  getJson("./Tax", (response) => {
+  getJson(`./Tax?firstPrefCode=${pref['iwate']}&secondPrefCode=${pref['tokyo']}`, (response) => {
+    console.log('in come chart')
     console.log(response) 
 
     var ctx = document.getElementById("incomeChart").getContext('2d');

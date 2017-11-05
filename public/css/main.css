@@ -10,7 +10,7 @@ html, body {
 header {
   width: 100%;
   padding-top: 25vh;
-  height: 70vh;
+  height: 80vh;
   background: url("../images/mainVisual.png")  no-repeat center;
   background-size: cover;
 }
