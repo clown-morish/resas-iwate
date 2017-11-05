@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="./css/app.css">
     <link rel="stylesheet" href="./css/main.css">
-    <script src="./js/app.js"></script>
+    <script src="/js/app.js"></script>
     <!--script src="https://d3js.org/d3.v4.min.js"></script-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
     <script src="./js/render_chart.js"></script>
@@ -44,7 +44,7 @@
             </div>
 
             <section>
-                <h3>1. 豊かな自然!</h3>
+                <h3>1. 豊かな自然</h3>
                 <div class="chartWrap">
                     <canvas id="natureChart" width="400" height="400"></canvas>
                 </div>
