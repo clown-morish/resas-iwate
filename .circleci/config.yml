@@ -37,5 +37,6 @@ jobs:
           name: Start deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                sudo rsync -av --delete --exclude='.git' --exclude='.circleci' ./ ${SSH_USER}@${HOST_NAME}:/var/www/html/laravel/
+                sudo su -
+                rsync -av --delete --exclude='.git' --exclude='.circleci' ./ ${SSH_USER}@${HOST_NAME}:/var/www/html/laravel/
             fi
