@@ -39,7 +39,7 @@ function render() {
 }
 
 var render_population = () => {
-  const url = `/Population?firstPrefCode=${iwatePref}&firstCityCode=${iwateCity}&secondPrefCode=${tokyoPref}&secondCityCode=${tokyoCity}`
+  const url = `./Population?firstPrefCode=${iwatePref}&firstCityCode=${iwateCity}&secondPrefCode=${tokyoPref}&secondCityCode=${tokyoCity}`
   console.log(url)
   getJson(url, (response) => {
 
@@ -80,7 +80,7 @@ var render_population = () => {
 
 var render_nature = () => {
     // http request
-    getJson("/Land", (response) => {
+    getJson("./Land", (response) => {
       console.log(response)
 
       var ctx = document.getElementById("natureChart").getContext('2d');
@@ -113,7 +113,7 @@ var render_nature = () => {
 
 var render_income = () => {
   // http request
-  getJson("/Tax", (response) => {
+  getJson("./Tax", (response) => {
     console.log(response) 
 
     var ctx = document.getElementById("incomeChart").getContext('2d');
