@@ -18,3 +18,4 @@ Route::get('/Wage', 'WageController@index');
 Route::get('/Tax', 'TaxController@index');
 Route::get('/Land', 'LandController@index');
 Route::get('/Estate', 'EstateController@index');
+Route::get('/Municipality', 'MunicipalityController@index');

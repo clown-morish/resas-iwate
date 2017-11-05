@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class WageController extends Controller
 {
-	public function __construct()
+	public function __construct(Request $request)
 	{
 		// 岩手県盛岡市
 		$this->firstPrefCode = $request->firstPrefCode;

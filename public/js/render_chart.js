@@ -13,6 +13,7 @@ var selectedCity = {
 var populationChart
 var incomeChart
 var natureChart
+var wageChart
 
 $(document).ready(() => {
 
@@ -39,6 +40,8 @@ function render() {
 
   // 一人あたりの賃金
   render_income()
+
+  render_wage()
 }
 
 function update_chart() {
@@ -46,6 +49,83 @@ function update_chart() {
   selectedCity["iwate"]["name"] = $('[name=iwateCity] option:selected').text()
   selectedCity["tokyo"]["code"] = $('[name=tokyoCity]').val()
   selectedCity["tokyo"]["name"] = $('[name=tokyoCity] option:selected').text()
+}
+
+var render_wage = () => {
+  getJson(`./Wage?firstPrefCode=${pref['iwate']}&firstCityCode=${selectedCity['iwate']['code']}&secondPrefCode=${pref['tokyo']}&secondCityCode=${selectedCity['tokyo']['code']}`, (response) => {
+    console.log("wage")
+      console.log(response)
+
+      if ( wageChart ) {
+        wageChart.destroy();
+      }
+
+      var ctx = document.getElementById("wageChart").getContext('2d');
+      wageChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ["岩手", "東京"],
+          datasets: [{
+            label: '一人あたりの賃金(万)',
+            data: [response["iwate"]["value"], response["tokyo"]["value"]],
+            backgroundColor: [
+            'rgba(90, 225, 132, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    })
+  }
+
+  var render_population = () => {
+    const url = `./Population?firstPrefCode=${pref['iwate']}&firstCityCode=${selectedCity['iwate']['code']}&secondPrefCode=${pref['tokyo']}&secondCityCode=${selectedCity['tokyo']['code']}`
+    console.log(url)
+    getJson(url, (response) => {
+
+      var ctx = document.getElementById("populationChart").getContext('2d');
+
+      if( populationChart ){
+       populationChart.destroy();
+     }
+
+     populationChart =  new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [`岩手県${selectedCity['iwate']['name']}-昼`, `岩手県${selectedCity['iwate']['name']}-夜`, `東京都${selectedCity['tokyo']['name']}-昼`, `東京都${selectedCity['tokyo']['name']}-夜`],
+        datasets: [{
+          label: '中夜間人口比率',
+          data: [response["iwate"]["noonDataSum"], response["iwate"]["nightDataSum"], response["tokyo"]["noonDataSum"], response["tokyo"]["nightDataSum"]],
+          backgroundColor: [
+          'rgba(90, 225, 132, 0.2)',
+          'rgba(90, 225, 132, 0.6)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.6)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+   });
 }
 
 var render_nature = () => {
@@ -142,7 +222,7 @@ var render_nature = () => {
     data: {
       labels: ["東京", "岩手"],
       datasets: [{
-        label: ' 一人あたりの賃金',
+        label: ' 一人あたりの賃金(万)',
         data: [response["tokyo"]["value"], response["iwate"]["value"]],
         backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
