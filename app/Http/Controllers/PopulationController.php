@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 
 class PopulationController extends Controller
 {
-	public function __construct()
-	{
+	public function __construct(Request $request)
+	{		
 		// 岩手県盛岡市
-		$this->firstPrefCode = "3";
-		$this->firstCityCode = "03201";
+		$this->firstPrefCode = $request->firstPrefCode;
+		$this->firstCityCode = $request->firstCityCode;
 		// 東京都港区
-		$this->secondPrefCode = "13";
-		$this->secondCityCode = "13103";
+		$this->secondPrefCode = $request->secondPrefCode;
+		$this->secondCityCode = $request->secondCityCode;
 	}
 
 	public function index()
@@ -38,7 +38,6 @@ class PopulationController extends Controller
 		$res = curl_exec($curl);
 		curl_close($curl);
 		$res_array = json_decode($res, true);
-
 		$result['noonDataSum'] = $res_array['result']['noonDataSum'];
 		$result['nightDataSum'] = $res_array['result']['nightDataSum'];
 		$result['dayNightRate'] = $res_array['result']['dayNightRate'];
