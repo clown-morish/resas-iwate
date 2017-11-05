@@ -44,7 +44,7 @@
             </div>
 
             <section>
-                <h3>1. 豊かな自然!</h3>
+                <h3>1. 豊かな自然</h3>
                 <div class="chartWrap">
                     <canvas id="natureChart" width="400" height="400"></canvas>
                 </div>
@@ -56,6 +56,7 @@
                 <div class="chartWrap">
                     <canvas id="populationChart"></canvas>
                 </div>
+                <p>北海道に次いで二番目に広い面積を有する岩手県. 人口が密集していないためのびのびとした生活ができます</p>
             </section>
         </article>
 
@@ -72,6 +73,20 @@
                 </div>
             </section>
         </article>
+
+        <article>
+            <h2>岩手へUターンしたい人, 岩手へUターンした人の投稿!</h2>
+            <div class="twitter-wrap">
+             <a class="twitter-timeline"  href="https://twitter.com/hashtag/YouTurnIwate" data-widget-id="927071178480541696">#YouTurnIwate のツイート</a>
+            </div>
+          
+        </article>
     </main>
+
+    <footer>
+        &copy; Dr2T
+    </footer>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
 </html>
