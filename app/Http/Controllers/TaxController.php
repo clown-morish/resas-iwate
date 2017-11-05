@@ -9,11 +9,11 @@ class TaxController extends Controller
 	public function __construct()
 	{
 		// 岩手県盛岡市
-		$this->firstPrefCode = "3";
-		$this->firstCityCode = "03201";
+		$this->firstPrefCode = $request->firstPrefCode;
+		$this->firstCityCode = $request->firstCityCode;
 		// 東京都港区
-		$this->secondPrefCode = "13";
-		$this->secondCityCode = "13103";
+		$this->secondPrefCode = $request->secondPrefCode;
+		$this->secondCityCode = $request->secondCityCode;
 	}
 
 	public function index()
@@ -41,7 +41,7 @@ class TaxController extends Controller
 		$tmp = $res_array['result']['data'];
 		$recent_num = count($res_array['result']['data'])-1;
 		$result['year'] = $res_array['result']['data'][$recent_num]['year'];
-		$result['value'] = $res_array['result']['data'][$recent_num]['value'];
+		$result['value'] = $res_array['result']['data'][$recent_num]['value']*1000;
 		return $result;
 	}
 }

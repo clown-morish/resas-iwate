@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-	return view('index');
-});
+Route::get('/', 'indexController@index');
 
 Route::get('/Population', 'PopulationController@index');
 Route::get('/Wage', 'WageController@index');
 Route::get('/Tax', 'TaxController@index');
+Route::get('/Land', 'LandController@index');
+Route::get('/Estate', 'EstateController@index');
