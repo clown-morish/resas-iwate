@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-	return view('index');
-});
+Route::get('/', 'indexController@index');
 
 Route::get('/Population', 'PopulationController@index');
 Route::get('/Wage', 'WageController@index');
