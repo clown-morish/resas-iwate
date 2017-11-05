@@ -63,13 +63,16 @@
         <article>
             <h2>Uターンしてみたいけど, 実際どうなの?</h2>
             <section>
-                <h3>仕事の話</h3>
-                <h4>求人</h4>
+                <!--h3>仕事の話</h3>
+                <h4>有効求人</h4>
+                <div class="chartWrap">
+                    <canvas id="populationChart"></canvas>
+                </div-->
 
                 <h3>お金の話</h3>
                 <h4>一人あたりの賃金</h4>
                 <div class="chartWrap">
-                    <canvas id="incomeChart" width="400" height="400"></canvas>
+                    <canvas id="wageChart" width="400" height="400"></canvas>
                 </div>
             </section>
         </article>
