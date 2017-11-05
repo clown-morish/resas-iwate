@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class WageController extends Controller
+class TaxController extends Controller
 {
 	public function __construct()
 	{
@@ -18,19 +18,19 @@ class WageController extends Controller
 
 	public function index()
 	{
-		$wages['iwate'] = $this->getWage($this->firstPrefCode,$this->firstCityCode);
-		$wages['tokyo'] = $this->getWage($this->secondPrefCode,$this->secondCityCode);
-		return response()->json($wages);
+		$taxes['iwate'] = $this->getTax($this->firstPrefCode,$this->firstCityCode);
+		$taxes['tokyo'] = $this->getTax($this->secondPrefCode,$this->secondCityCode);
+		return response()->json($taxes);
 	}
 
-	public function getWage($pref_cd, $city_cd)
+	public function getTax($pref_cd, $city_cd)
 	{
 		$api_key = "UPX5SZobrRouNAHKJksmpsixcgtDbcQfPXCo2UV9";
 		$headers = [
 			"Content-Type: application/json",
 			"X-API-KEY: " . $api_key,
 		];
-		$url = "https://opendata.resas-portal.go.jp/api/v1/municipality/wages/perYear?prefCode=".$pref_cd."&city_cd=".$city_cd."&simcCode=-&wagesAge=10&sicCode=-";
+		$url = "https://opendata.resas-portal.go.jp/api/v1/municipality/taxes/perYear?prefCode=".$pref_cd."&cityCode=".$city_cd;
 		$curl = curl_init(); 
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -38,10 +38,10 @@ class WageController extends Controller
 		$res = curl_exec($curl);
 		curl_close($curl);
 		$res_array = json_decode($res, true);
+		$tmp = $res_array['result']['data'];
 		$recent_num = count($res_array['result']['data'])-1;
 		$result['year'] = $res_array['result']['data'][$recent_num]['year'];
 		$result['value'] = $res_array['result']['data'][$recent_num]['value'];
-		
 		return $result;
 	}
 }
