@@ -53,6 +53,10 @@ var render_nature = () => {
     getJson(`./Land?firstPrefCode=${pref['iwate']}&firstCityCode=${selectedCity['iwate']['code']}&secondPrefCode=${pref['tokyo']}&secondCityCode=${selectedCity['tokyo']['code']}`, (response) => {
       console.log(response)
 
+      if ( natureChart ) {
+        natureChart.destroy();
+      }
+
       var ctx = document.getElementById("natureChart").getContext('2d');
       natureChart = new Chart(ctx, {
         type: 'bar',
