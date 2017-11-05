@@ -41,7 +41,7 @@ class TaxController extends Controller
 		$tmp = $res_array['result']['data'];
 		$recent_num = count($res_array['result']['data'])-1;
 		$result['year'] = $res_array['result']['data'][$recent_num]['year'];
-		$result['value'] = $res_array['result']['data'][$recent_num]['value'];
+		$result['value'] = $res_array['result']['data'][$recent_num]['value']*1000;
 		return $result;
 	}
 }
