@@ -1,99 +1,69 @@
-var iwatePref = 3
-var tokyoPref = 13
-var iwateCity
-var tokyoCity
+const pref = {
+  "iwate": 3,
+  "tokyo": 13
+}
+
+var selectedCity = {
+  "iwate": {
+  },
+  "tokyo": {
+  }
+}
+
 var populationChart
 var incomeChart
+var natureChart
 
 $(document).ready(() => {
 
-  iwateCity = $('[name=iwateCity]').val()
-  tokyoCity = $('[name=tokyoCity]').val()
-
+  update_chart()
   render()
 
   $('#iwate-city').change(function() {
-    console.log("fnit")
-    // 選択されているvalue属性値を取り出す
-    iwateCity = $('[name=iwateCity]').val()
+    update_chart()
     render()
   });
 
   $('#tokyo-city').change(function() {
-    console.log("fffni")
-      // 選択されているvalue属性値を取り出す
-      tokyoCity = $('[name=tokyoCity]').val()
-      render()
-    });
+    update_chart()
+    render()
+  });
 });
 
 function render() {
-  console.log("in reander")
-  // 昼夜間人口比率
-  render_population()
 
   render_nature()
+
+  // 昼夜間人口比率
+  render_population()
 
   // 一人あたりの賃金
   render_income()
 }
 
-var render_population = () => {
-  const url = `./Population?firstPrefCode=${iwatePref}&firstCityCode=${iwateCity}&secondPrefCode=${tokyoPref}&secondCityCode=${tokyoCity}`
-  console.log(url)
-  getJson(url, (response) => {
-
-    var ctx = document.getElementById("populationChart").getContext('2d');
-
-    if( populationChart ){
-     populationChart.destroy();
-   }
-
-   populationChart =  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ["岩手-昼", "岩手-夜", "東京-昼", "東京-夜"],
-      datasets: [{
-        label: '中夜間人口比率',
-        data: [response["iwate"]["noonDataSum"], response["iwate"]["nightDataSum"], response["tokyo"]["noonDataSum"], response["tokyo"]["nightDataSum"]],
-        backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(90, 225, 132, 0.2)',
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(90, 225, 132, 0.2)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero:true
-          }
-        }]
-      }
-    }
-  });
- });
+function update_chart() {
+  selectedCity["iwate"]["code"] = $('[name=iwateCity]').val()
+  selectedCity["iwate"]["name"] = $('[name=iwateCity] option:selected').text()
+  selectedCity["tokyo"]["code"] = $('[name=tokyoCity]').val()
+  selectedCity["tokyo"]["name"] = $('[name=tokyoCity] option:selected').text()
 }
 
 var render_nature = () => {
     // http request
-    getJson(`./Land?firstPrefCode=${iwatePref}&firstCityCode=${iwateCity}&secondPrefCode=${tokyoPref}&secondCityCode=${tokyoCity}`, (response) => {
+    getJson(`./Land?firstPrefCode=${pref['iwate']}&firstCityCode=${selectedCity['iwate']['code']}&secondPrefCode=${pref['tokyo']}&secondCityCode=${selectedCity['tokyo']['code']}`, (response) => {
       console.log(response)
 
       var ctx = document.getElementById("natureChart").getContext('2d');
-      const incomeChart = new Chart(ctx, {
+      natureChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ["東京", "岩手"],
+          labels: ["岩手", "東京"],
           datasets: [{
             label: '自然の豊かさ（森林と野原の量）',
-            data: [response["tokyo"]["statearea"], response["iwate"]["statearea"]],
+            data: [response["iwate"]["statearea"], response["tokyo"]["statearea"]],
             backgroundColor: [
+            'rgba(90, 225, 132, 0.2)',
             'rgba(255, 99, 132, 0.2)',
-            'rgba(90, 225, 132, 0.2)'
             ],
             borderWidth: 1
           }]
@@ -111,7 +81,47 @@ var render_nature = () => {
     })
   }
 
-var render_income = () => {
+  var render_population = () => {
+    const url = `./Population?firstPrefCode=${pref['iwate']}&firstCityCode=${selectedCity['iwate']['code']}&secondPrefCode=${pref['tokyo']}&secondCityCode=${selectedCity['tokyo']['code']}`
+    console.log(url)
+    getJson(url, (response) => {
+
+      var ctx = document.getElementById("populationChart").getContext('2d');
+
+      if( populationChart ){
+       populationChart.destroy();
+     }
+
+     populationChart =  new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [`岩手県${selectedCity['iwate']['name']}-昼`, `岩手県${selectedCity['iwate']['name']}-夜`, `東京都${selectedCity['tokyo']['name']}-昼`, `東京都${selectedCity['tokyo']['name']}-夜`],
+        datasets: [{
+          label: '中夜間人口比率',
+          data: [response["iwate"]["noonDataSum"], response["iwate"]["nightDataSum"], response["tokyo"]["noonDataSum"], response["tokyo"]["nightDataSum"]],
+          backgroundColor: [
+          'rgba(90, 225, 132, 0.2)',
+          'rgba(90, 225, 132, 0.6)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.6)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+   });
+  }
+
+  var render_income = () => {
   // http request
   getJson("./Tax", (response) => {
     console.log(response) 
@@ -164,5 +174,4 @@ function getJson(url, callback) {
     }
     );
 }
-
 
