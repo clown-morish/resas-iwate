@@ -1,33 +1,54 @@
-/*
-const resas_endpoint = "https://opendata.resas-portal.go.jp/"
-const headers = {"X-API-KEY" : "UPX5SZobrRouNAHKJksmpsixcgtDbcQfPXCo2UV9" }
-const prefCode = {
-  "iwate" : "",
-  "tokyo" : ""
-}
-
 $(document).ready(() => {
 
-getJson("api/v1/forestry/land/forStacked", render_nature_area)
+  // 一人あたりの賃金
+  render_income()
 });
 
-var render_nature_area = (region, raw_json) => {
-  const chart_data = {
+var render_income = () => {
+  // http request
+  getJson("/Tax", (response) => {
+    console.log(response) 
 
-  } 
-
-  var ctx = document.getElementById("myChart").getContext('2d');
+    var ctx = document.getElementById("incomeChart").getContext('2d');
+    const incomeChart =  new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["東京", "岩手"],
+        datasets: [{
+          label: ' 一人あたりの賃金',
+          data: [response["tokyo"]["value"], response["iwate"]["value"]],
+          backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(90, 225, 132, 0.2)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+  })
 }
 
-// 不動産取引価格
-function getJson(api_url, callback) {
+// Http Request
+function getJson(url, callback) {
   $.ajax({
-    url: resas_endpoint + api_url,
-    headers: headers,
-    dataType: "json",
-    success: ( result ) => {
-      callback(result)
+    url: url,
+    dataType: "json"
+  }).then(
+    // success
+    (data) => {
+      callback(data)
+    },
+    (err) => {
+      console.log(err)
     }
-  });
+    );
 }
-*/
