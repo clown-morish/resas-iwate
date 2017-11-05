@@ -80,7 +80,7 @@ var render_population = () => {
 
 var render_nature = () => {
     // http request
-    getJson("./Land", (response) => {
+    getJson(`./Land?firstPrefCode=${iwatePref}&firstCityCode=${iwateCity}&secondPrefCode=${tokyoPref}&secondCityCode=${tokyoCity}`, (response) => {
       console.log(response)
 
       var ctx = document.getElementById("natureChart").getContext('2d');
