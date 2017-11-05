@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/Population', 'PopulationController@index');
+Route::get('/Wage', 'WageController@index');
